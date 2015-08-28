@@ -33,4 +33,10 @@ For I2C access you must have the 'smbus' package available - for debian based sy
 Installation (Compile)
 ----------------------
 
-See the instructions at https://pypi.python.org/pypi/smbus-cffi/
+For full instructions see https://pypi.python.org/pypi/smbus-cffi/
+
+Basic:
+
+        sudo apt-get install build-essential libi2c-dev i2c-tools python-dev libffi-dev
+        pip install cffi smbus-cffi
+        pip install bme280

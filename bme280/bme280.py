@@ -86,12 +86,18 @@ def read_all():
 def read_humidity(data=None):
     if data is None:
         data = read_adc()
+
+    # We need a temperature reading to calculate humidity
+    read_temperature(data)
     return compensate_humidity(data.humidity)
 
 
 def read_pressure(data=None):
     if data is None:
         data = read_adc()
+
+    # We need a temperature reading to calculate pressure
+    read_temperature(data)
     return compensate_pressure(data.pressure)
 
 
@@ -137,15 +143,14 @@ def compensate_temperature(adc_t):
 
 def compensate_humidity(adc_h):
     var_h = t_fine - 76800.0
-
     if var_h == 0:
         return 0
 
-    var_h = (adc_h - (calibration_h[3] * 64.0 + calibration_h[4] / 16384.0 * var_h))
-    var_h = var_h * calibration_h[1] / 65536.0 * (1.0 + calibration_h[5] / 67108864.0 * var_h * (
-        1.0 + calibration_h[2] / 67108864.0 * var_h))
+    var_h = (adc_h - (calibration_h[3] * 64.0 + calibration_h[4] / 16384.0 * var_h)) * (
+        calibration_h[1] / 65536.0 * (1.0 + calibration_h[5] / 67108864.0 * var_h * (
+            1.0 + calibration_h[2] / 67108864.0 * var_h)))
+    var_h *= (1.0 - calibration_h[0] * var_h / 524288.0)
 
-    var_h += var_h * (1.0 - calibration_h[0] * var_h / 524288.0)
     if var_h > 100.0:
         var_h = 100.0
     elif var_h < 0.0:
@@ -177,7 +182,10 @@ def setup():
 
     populate_calibration_data()
 
-if __name__ == '__main__':
+    setup_run = True
+
+
+def main():
     parser = argparse.ArgumentParser()
 
     parser.add_argument('--pressure', action='store_true', default=False)
@@ -190,13 +198,17 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
     if args.pressure:
-        print "%7.2f hPa" % data_all.pressure()
+        print "%7.2f hPa" % data_all.pressure
     if args.humidity:
-        print "%6.2f ％" % data_all.humidity()
+        print "%6.2f ％" % data_all.humidity
     if args.temperature:
-        print "%-6.2f ℃" % data_all.temperature()
+        print "%-6.2f ℃" % data_all.temperature
 
     if not args.pressure and not args.humidity and not args.temperature:
-        print "%7.2f hPa" % data_all.pressure()
-        print "%6.2f ％" % data_all.humidity()
-        print "%-6.2f ℃" % data_all.temperature()
+        print "%7.2f hPa" % data_all.pressure
+        print "%6.2f ％" % data_all.humidity
+        print "%-6.2f ℃" % data_all.temperature
+
+
+if __name__ == '__main__':
+    main()

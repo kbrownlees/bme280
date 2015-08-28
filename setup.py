@@ -33,8 +33,12 @@ setup(
     packages=[
         'bme280',
     ],
-    package_dir={'bme280':
-                 'bme280'},
+    package_dir={'bme280': 'bme280'},
+    entry_points={
+        'console_scripts': [
+            'read_bme280 = bme280.bme280:main'
+        ]
+    },
     include_package_data=True,
     install_requires=requirements,
     license="BSD",

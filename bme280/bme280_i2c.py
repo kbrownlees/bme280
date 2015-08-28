@@ -12,7 +12,7 @@ def read_byte_data(cmd, bus=None, i2c_address=None):
     if bus is None:
         bus = default_bus
     if i2c_address is None:
-        i2c_address = i2c_address
+        i2c_address = default_i2c_address
     return bus.read_byte_data(i2c_address, cmd)
 
 
@@ -20,5 +20,5 @@ def write_byte_data(cmd, value, bus=None, i2c_address=None):
     if bus is None:
         bus = default_bus
     if i2c_address is None:
-        i2c_address = i2c_address
+        i2c_address = default_i2c_address
     return bus.write_byte_data(i2c_address, cmd, value)
