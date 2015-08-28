@@ -2,10 +2,18 @@
 
 import smbus
 
-bus_number = 1
+default_i2c_address = None
+default_bus = None
 
-default_i2c_address = 0x77
-default_bus = smbus.SMBus(bus_number)
+
+def set_default_i2c_address(i2c_address):
+    global default_i2c_address
+    default_i2c_address = i2c_address
+
+
+def set_default_bus(bus_number):
+    global default_bus
+    default_bus = smbus.SMBus(bus_number)
 
 
 def read_byte_data(cmd, bus=None, i2c_address=None):

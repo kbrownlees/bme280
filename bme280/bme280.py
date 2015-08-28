@@ -9,7 +9,7 @@ originally wrote bme280_sample.py)
 import argparse
 from collections import namedtuple
 
-from .bme280_i2c import read_byte_data, write_byte_data
+from . import bme280_i2c
 
 setup_run = False
 
@@ -26,10 +26,10 @@ def populate_calibration_data():
     raw_data = []
 
     for i in range(0x88, 0x88 + 24):
-        raw_data.append(read_byte_data(i))
-    raw_data.append(read_byte_data(0xA1))
+        raw_data.append(bme280_i2c.read_byte_data(i))
+    raw_data.append(bme280_i2c.read_byte_data(0xA1))
     for i in range(0xE1, 0xE1 + 7):
-        raw_data.append(read_byte_data(i))
+        raw_data.append(bme280_i2c.read_byte_data(i))
 
     calibration_t.append((raw_data[1] << 8) | raw_data[0])
     calibration_t.append((raw_data[3] << 8) | raw_data[2])
@@ -66,7 +66,7 @@ def populate_calibration_data():
 def read_adc():
     data = []
     for i in range(0xF7, 0xF7 + 8):
-        data.append(read_byte_data(i))
+        data.append(bme280_i2c.read_byte_data(i))
     pres_raw = (data[0] << 12) | (data[1] << 4) | (data[2] >> 4)
     temp_raw = (data[3] << 12) | (data[4] << 4) | (data[5] >> 4)
     hum_raw = (data[6] << 8) | data[7]
@@ -176,9 +176,9 @@ def setup():
     config_reg = (t_sb << 5) | (filter << 2) | spi3w_en
     ctrl_hum_reg = osrs_h
 
-    write_byte_data(0xF2, ctrl_hum_reg)
-    write_byte_data(0xF4, ctrl_meas_reg)
-    write_byte_data(0xF5, config_reg)
+    bme280_i2c.write_byte_data(0xF2, ctrl_hum_reg)
+    bme280_i2c.write_byte_data(0xF4, ctrl_meas_reg)
+    bme280_i2c.write_byte_data(0xF5, config_reg)
 
     populate_calibration_data()
 
@@ -192,11 +192,18 @@ def main():
     parser.add_argument('--humidity', action='store_true', default=False)
     parser.add_argument('--temperature', action='store_true', default=False)
 
-    setup()
+    parser.add_argument('--i2c-address', default='0x76')
+    parser.add_argument('--i2c-bus', default='1')
+    args = parser.parse_args()
 
+    if args.i2c_address:
+        bme280_i2c.set_default_i2c_address(int(args.i2c_address, 0))
+    if args.i2c_bus:
+        bme280_i2c.set_default_bus(int(args.i2c_bus))
+
+    setup()
     data_all = read_all()
 
-    args = parser.parse_args()
     if args.pressure:
         print "%7.2f hPa" % data_all.pressure
     if args.humidity:

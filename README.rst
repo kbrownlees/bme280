@@ -21,22 +21,15 @@ Full credit to https://github.com/IDCFChannel/bme280-meshblu-py for most of the 
 Features
 --------
 
-* TODO
+* i2c reading of the bme280 Temperature/Pressure/Humidity sensor
+* munin plugins for graphing the results
 
 
 Installation (Package)
 ----------------------
 
 For I2C access you must have the 'smbus' package available - for debian based systems install python-smbus.
+If you wish to compile it, the packages required is smbus-cffi (https://pypi.python.org/pypi/smbus-cffi/)
 
-
-Installation (Compile)
-----------------------
-
-For full instructions see https://pypi.python.org/pypi/smbus-cffi/
-
-Basic:
-
-        sudo apt-get install build-essential libi2c-dev i2c-tools python-dev libffi-dev
-        pip install cffi smbus-cffi
+Then:
         pip install bme280
