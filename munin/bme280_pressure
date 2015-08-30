@@ -1,0 +1,21 @@
+#!/bin/sh
+
+case $1 in
+   config)
+        cat <<'EOM'
+graph_title Pressure
+graph_vlabel pressure
+pressure.label hPa
+EOM
+        exit 0;;
+esac
+
+CMD="read_bme280 --pressure"
+if [ -n "${I2C_ADDRESS}" ]; then
+    CMD="${CMD} --i2c-address ${I2C_ADDRESS}"
+fi
+if [ -n "${I2C_BUS}" ]; then
+    CMD="${CMD} --i2c-bus ${I2C_BUS}"
+fi
+
+printf "pressure.value $(${CMD} | xargs | cut -d' ' -f1)"

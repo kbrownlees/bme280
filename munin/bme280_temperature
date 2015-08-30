@@ -1,0 +1,21 @@
+#!/bin/sh
+
+case $1 in
+   config)
+        cat <<'EOM'
+graph_title Temperature
+graph_vlabel temperature
+temperature.label C
+EOM
+        exit 0;;
+esac
+
+CMD="read_bme280 --temperature"
+if [ -n "${I2C_ADDRESS}" ]; then
+    CMD="${CMD} --i2c-address ${I2C_ADDRESS}"
+fi
+if [ -n "${I2C_BUS}" ]; then
+    CMD="${CMD} --i2c-bus ${I2C_BUS}"
+fi
+
+printf "temperature.value $(${CMD} | xargs | cut -d' ' -f1)"

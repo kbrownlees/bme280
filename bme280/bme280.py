@@ -207,14 +207,14 @@ def main():
     if args.pressure:
         print "%7.2f hPa" % data_all.pressure
     if args.humidity:
-        print "%6.2f ％" % data_all.humidity
+        print "%7.2f ％" % data_all.humidity
     if args.temperature:
-        print "%-6.2f ℃" % data_all.temperature
+        print "%7.2f ℃" % data_all.temperature
 
     if not args.pressure and not args.humidity and not args.temperature:
         print "%7.2f hPa" % data_all.pressure
-        print "%6.2f ％" % data_all.humidity
-        print "%-6.2f ℃" % data_all.temperature
+        print "%7.2f ％" % data_all.humidity
+        print "%7.2f ℃" % data_all.temperature
 
 
 if __name__ == '__main__':
