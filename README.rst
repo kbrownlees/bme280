@@ -31,9 +31,9 @@ Installation (Package)
 For I2C access you must have the 'smbus' package available - for debian based systems install python-smbus.
 If you wish to compile it, the packages required is smbus-cffi (https://pypi.python.org/pypi/smbus-cffi/)
 
-Then:
-        pip install bme280
+Then::
 
+        pip install bme280
 
 Usage
 -----
@@ -41,13 +41,12 @@ Usage
 Adafruit have a good run through of setting up their break out version of the bme280 at
 https://learn.adafruit.com/adafruit-bme280-humidity-barometric-pressure-temperature-sensor-breakout/wiring-and-test
 
-You will need to know the i2c address being used by the bme280, it is usually 0x76 or 0x77. You can use
+You will need to know the i2c address being used by the bme280, it is usually 0x76 or 0x77. To verify which
+devices are connected tou can use::
 
         i2cdetect -y 1
 
-To verify which devices are connected.
-
-Then:
+Then::
 
         $ read_bme280 --help
 
@@ -62,7 +61,7 @@ Then:
           --i2c-address I2C_ADDRESS
           --i2c-bus I2C_BUS
 
-Example:
+Example::
 
         $ read_bme280 --i2c-address 0x77
 
@@ -73,17 +72,16 @@ Example:
 Munin
 -----
 
-Three plugins are available in the /munin folder. To use them link them into /etc/munin/plugins:
+Three plugins are available in the /munin folder. To use them link them into /etc/munin/plugins::
 
         ln -s /path/to/bme280/munin* /etc/munin/plugins
 
-You can configure the plugins by editing /etc/munin/plugin-conf.d/munin-node and adding:
+You can configure the plugins by editing /etc/munin/plugin-conf.d/munin-node and adding::
 
         [bme280_*]
         group i2c
         env.I2C_ADDRESS 0x77
 
-
-You can test it with:
+You can test it with::
 
         sudo munin-run bme280_humidity
