@@ -13,13 +13,21 @@ from . import bme280_i2c
 
 setup_run = False
 
-calibration_t = []
-calibration_p = []
 calibration_h = []
+calibration_p = []
+calibration_t = []
 
 t_fine = 0.0
 
 Data = namedtuple('Data', ['humidity', 'pressure', 'temperature'])
+
+
+def reset_calibration():
+    global calibration_h, calibration_p, calibration_t, t_fine
+    calibration_h = []
+    calibration_p = []
+    calibration_t = []
+    t_fine = 0.0
 
 
 def populate_calibration_data():
@@ -205,16 +213,16 @@ def main():
     data_all = read_all()
 
     if args.pressure:
-        print "%7.2f hPa" % data_all.pressure
+        print("%7.2f hPa" % data_all.pressure)
     if args.humidity:
-        print "%7.2f ％" % data_all.humidity
+        print("%7.2f ％" % data_all.humidity)
     if args.temperature:
-        print "%7.2f ℃" % data_all.temperature
+        print("%7.2f ℃" % data_all.temperature)
 
     if not args.pressure and not args.humidity and not args.temperature:
-        print "%7.2f hPa" % data_all.pressure
-        print "%7.2f ％" % data_all.humidity
-        print "%7.2f ℃" % data_all.temperature
+        print("%7.2f hPa" % data_all.pressure)
+        print("%7.2f ％" % data_all.humidity)
+        print("%7.2f ℃" % data_all.temperature)
 
 
 if __name__ == '__main__':

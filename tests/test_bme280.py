@@ -13,13 +13,7 @@ import unittest
 from bme280 import bme280
 
 
-class TestBme280(unittest.TestCase):
+class TestImport(unittest.TestCase):
 
-    def setUp(self):
-        pass
-
-    def test_something(self):
-        pass
-
-    def tearDown(self):
+    def test_import(self):
         pass

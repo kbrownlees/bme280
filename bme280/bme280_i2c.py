@@ -1,6 +1,12 @@
 # -*- coding: utf-8 -*-
 
-import smbus
+import warnings
+
+try:
+    import smbus
+except ImportError:
+    warnings.warn('smbus is not available, you will not be able to use i2c', ImportWarning)
+    smbus = None
 
 default_i2c_address = None
 default_bus = None

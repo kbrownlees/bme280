@@ -89,3 +89,4 @@ You can test it with::
 Restart your node and the new graphs should turn up in about 10 minutes::
 
     sudo /etc/init.d/munin-node restart
+
