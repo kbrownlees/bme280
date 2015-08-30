@@ -89,3 +89,8 @@ Restart your node and the new graphs should turn up in about 10 minutes::
 
     sudo /etc/init.d/munin-node restart
 
+
+Or you can force run munin a couple of times and they should turn up::
+
+    sudo su - munin munin-cron --shell=/bin/bash
+
