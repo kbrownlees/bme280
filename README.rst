@@ -12,7 +12,6 @@ BME280 Python Driver
 Python Driver for the BME280 Temperature/Pressure/Humidity Sensor from Bosch.
 
 * Free software: BSD license
-* Documentation: https://bme280.readthedocs.org.
 
 Full credit to https://github.com/IDCFChannel/bme280-meshblu-py for most of the logic, I simply packaged
 / tidied it.
