@@ -92,7 +92,7 @@ If you get an error like::
 Then Add the follow lines to /etc/munin/plugin-conf.d/munin-node under the [bme280_*] section you
 added before (assuming 'which read_bme280' results in /usr/local/bin/read_bme280)::
 
-    env.PATH /usr/local/bin:/usr/bin
+    env.PATH /usr/local/bin:/usr/bin:/bin
 
 Restart your node and the new graphs should turn up in about 10 minutes::
 
