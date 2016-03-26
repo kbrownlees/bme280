@@ -221,7 +221,7 @@ def main():
 
     if not args.pressure and not args.humidity and not args.temperature:
         print("%7.2f hPa" % data_all.pressure)
-        print("%7.2f ％" % data_all.humidity)
+        print("%7.2f %" % data_all.humidity)
         print("%7.2f C" % data_all.temperature)
 
 
