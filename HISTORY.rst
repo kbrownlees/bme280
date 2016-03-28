@@ -3,6 +3,10 @@
 History
 -------
 
+0.3 (2016-03-29)
+
+* Remove unicode characters, thanks abossenbroek!
+
 0.2 (2015-08-30)
 ----------------
 
