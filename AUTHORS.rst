@@ -10,5 +10,5 @@ Development Lead
 Contributors
 ------------
 
-* Anton Bossenbroek (https://github.com/abossenbroek)
+* Anton Bossenbroek (anton.bossenbroek@me.com)
 
