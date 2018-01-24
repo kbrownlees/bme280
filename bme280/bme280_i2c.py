@@ -19,6 +19,9 @@ def set_default_i2c_address(i2c_address):
 
 def set_default_bus(bus_number):
     global default_bus
+    if smbus is None:
+        raise RuntimeError('smbus is not available, please ensure it is installed correctly (see README)')
+
     default_bus = smbus.SMBus(bus_number)
 
 
