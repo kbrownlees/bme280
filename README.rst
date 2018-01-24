@@ -28,11 +28,14 @@ Installation (Package)
 ----------------------
 
 For I2C access you must have the 'smbus' package available - for debian based systems install python-smbus.
-If you wish to compile it, the packages required is smbus-cffi (https://pypi.python.org/pypi/smbus-cffi/)
+If you wish to compile it, the python package is smbus-cffi (https://pypi.python.org/pypi/smbus-cffi/)
 
 Then::
 
         pip install bme280
+
+Unless you have setup a virtualenv you may need to use sudo. Also, if your smbus is installed globally then
+you need to use sudo or ensure your virtualenv has access to the global site packages.
 
 Usage
 -----
