@@ -25,7 +25,7 @@ test_requirements = [
 
 setup(
     name='bme280',
-    version='0.4',
+    version='0.5',
     description="Python Driver for the BME280 Temperature/Pressure/Humidity Sensor from Bosch.",
     long_description=readme + '\n\n' + history,
     author="Kieran Brownlees",
