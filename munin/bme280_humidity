@@ -3,7 +3,8 @@
 case $1 in
    config)
         cat <<'EOM'
-graph_title Humidity
+graph_title BME280 Humidity
+graph_category sensors
 graph_vlabel humidity
 humidity.label %
 EOM

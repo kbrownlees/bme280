@@ -3,7 +3,8 @@
 case $1 in
    config)
         cat <<'EOM'
-graph_title Pressure
+graph_title BME280 Pressure
+graph_category sensors
 graph_vlabel pressure
 pressure.label hPa
 EOM

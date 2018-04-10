@@ -3,7 +3,8 @@
 case $1 in
    config)
         cat <<'EOM'
-graph_title Temperature
+graph_title BME280 Temperature
+graph_category sensors
 graph_vlabel temperature
 temperature.label C
 EOM
