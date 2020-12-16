@@ -189,7 +189,7 @@ def setup(oversample_t=1, oversample_p=1, oversample_h=1, mode=0x3, t_sb=0x5, fi
     if setup_run:
         return
 
-    # Oversampling register values (oversampling factor -> register value)
+    # Oversampling and filter register values (oversampling factor -> register value)
     osrs_values = {
         0: 0x0,
         1: 0x1,
@@ -204,10 +204,13 @@ def setup(oversample_t=1, oversample_p=1, oversample_h=1, mode=0x3, t_sb=0x5, fi
         raise ValueError("Invalid pressure oversampling value {:d}".format(oversample_p))
     if oversample_h not in osrs_values:
         raise ValueError("Invalid humidity oversampling value {:d}".format(oversample_h))
+    if filter not in osrs_values:
+        raise ValueError("Invalid filter setting {:d}".format(filter))
 
     osrs_t = osrs_values[oversample_t]
     osrs_p = osrs_values[oversample_p]
     osrs_h = osrs_values[oversample_h]
+    filter = osrs_values[filter]
 
     ctrl_meas_reg = (osrs_t << 5) | (osrs_p << 2) | mode
     config_reg = (t_sb << 5) | (filter << 2) | spi3w_en
