@@ -167,22 +167,24 @@ def compensate_humidity(adc_h):
     return var_h
 
 
-def setup(oversample_t=1, oversample_p=1, oversample_h=1, mode=0x3, t_sb=0x5, filter=0x0, spi3w_en=0x0):
+def setup(oversample_t=1, oversample_p=1, oversample_h=1, filter=0, mode=0x3, t_sb=0x5, spi3w_en=0x0):
     """
     Setup BME280 sensor by writing control/configuration registers
 
     oversample_t - Temperature oversampling factor
     oversample_p - Pressure oversampling factor
     oversample_h - Humidity oversampling factor
+    filter       - Sensor filtering factor
 
     Valid values for these parameters include:
-        0 = skip
+        0 = skip measurement/filter off
         1, 2, 4, 8, or 16
 
-    mode = 0x3  # Normal mode
-    t_sb = 0x5  # Tstandby 1000ms
-    filter = 0x0  # Filter off
-    spi3w_en = 0  # 3-wire SPI Disable
+    For remaining parameters, use raw register values, for example:
+
+    mode = 0x3    - Normal power mode
+    t_sb = 0x5    - Tstandby 1000ms
+    spi3w_en = 0  - 3-wire SPI Disable
     """
 
     global setup_run
@@ -211,6 +213,9 @@ def setup(oversample_t=1, oversample_p=1, oversample_h=1, mode=0x3, t_sb=0x5, fi
     osrs_p = osrs_values[oversample_p]
     osrs_h = osrs_values[oversample_h]
     filter = osrs_values[filter]
+
+    assert 0x0 <= mode <= 0x3
+
 
     ctrl_meas_reg = (osrs_t << 5) | (osrs_p << 2) | mode
     config_reg = (t_sb << 5) | (filter << 2) | spi3w_en
