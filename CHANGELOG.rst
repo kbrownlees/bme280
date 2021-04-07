@@ -3,6 +3,10 @@
 History
 -------
 
+0.6 (2021-04-08)
+
+* Ability to specifiy various control parameters, including oversampling factors. See https://github.com/kbrownlees/bme280/pull/5. Thanks @gregoryng.
+
 0.3 (2016-03-29)
 
 * Remove unicode characters, thanks abossenbroek!
