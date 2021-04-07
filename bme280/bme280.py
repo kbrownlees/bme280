@@ -167,22 +167,64 @@ def compensate_humidity(adc_h):
     return var_h
 
 
-def setup():
+def setup(oversample_t=1, oversample_p=1, oversample_h=1, filter=0, mode=0x3, t_sb=0x5, spi3w_en=0x0):
+    """
+    Setup BME280 sensor by writing control/configuration registers
+
+    oversample_t - Temperature oversampling factor
+    oversample_p - Pressure oversampling factor
+    oversample_h - Humidity oversampling factor
+    filter       - Sensor filtering factor
+
+    Valid values for these parameters include:
+        0 = skip measurement/filter off
+        1, 2, 4, 8, or 16
+
+    For remaining parameters, use raw register values, for example:
+
+    mode = 0x3    - Normal power mode
+    t_sb = 0x5    - Tstandby 1000ms
+    spi3w_en = 0  - 3-wire SPI Disable
+    """
+
     global setup_run
     if setup_run:
         return
 
-    osrs_t = 1  # Temperature oversampling x 1
-    osrs_p = 1  # Pressure oversampling x 1
-    osrs_h = 1  # Humidity oversampling x 1
-    mode = 3  # Normal mode
-    t_sb = 5  # Tstandby 1000ms
-    filter = 0  # Filter off
-    spi3w_en = 0  # 3-wire SPI Disable
+    # Oversampling and filter register values (oversampling factor -> register value)
+    osrs_values = {
+        0: 0x0,
+        1: 0x1,
+        2: 0x2,
+        4: 0x3,
+        8: 0x4,
+        16: 0x5,
+    }
+    if oversample_t not in osrs_values:
+        raise ValueError("Invalid temperature oversampling value {:d}".format(oversample_t))
+    if oversample_p not in osrs_values:
+        raise ValueError("Invalid pressure oversampling value {:d}".format(oversample_p))
+    if oversample_h not in osrs_values:
+        raise ValueError("Invalid humidity oversampling value {:d}".format(oversample_h))
+    if filter not in osrs_values:
+        raise ValueError("Invalid filter setting {:d}".format(filter))
+
+    osrs_t = osrs_values[oversample_t]
+    osrs_p = osrs_values[oversample_p]
+    osrs_h = osrs_values[oversample_h]
+    filter = osrs_values[filter]
+
+    assert 0x0 <= mode <= 0x3
+
 
     ctrl_meas_reg = (osrs_t << 5) | (osrs_p << 2) | mode
     config_reg = (t_sb << 5) | (filter << 2) | spi3w_en
     ctrl_hum_reg = osrs_h
+
+    # The Adafruit Arduino BME280 library notes that:
+    # "making sure sensor is in sleep mode before setting configuration as it otherwise may be ignored."
+    # https://github.com/adafruit/Adafruit_BME280_Library/blob/e8a7e29df2862109247b7a3eb4f2b10381f4bab3/Adafruit_BME280.cpp#L165
+    bme280_i2c.write_byte_data(0xF4, 0x00)
 
     bme280_i2c.write_byte_data(0xF2, ctrl_hum_reg)
     bme280_i2c.write_byte_data(0xF4, ctrl_meas_reg)
