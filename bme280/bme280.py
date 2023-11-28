@@ -234,6 +234,35 @@ def setup(oversample_t=1, oversample_p=1, oversample_h=1, filter=0, mode=0x3, t_
 
     setup_run = True
 
+def full_setup(bus_number,i2c_address,
+               oversample_t=1, oversample_p=1, oversample_h=1, filter=0, mode=0x3, t_sb=0x5, spi3w_en=0x0):
+    """
+    Setup BME280 sensor by writing control/configuration registers
+
+    bus_number   - Default bus number to read data from
+    i2c_address  - Default i2c address to read data from
+    
+    ###
+    
+    oversample_t - Temperature oversampling factor
+    oversample_p - Pressure oversampling factor
+    oversample_h - Humidity oversampling factor
+    filter       - Sensor filtering factor
+
+    Valid values for these parameters include:
+        0 = skip measurement/filter off
+        1, 2, 4, 8, or 16
+
+    For remaining parameters, use raw register values, for example:
+
+    mode = 0x3    - Normal power mode
+    t_sb = 0x5    - Tstandby 1000ms
+    spi3w_en = 0  - 3-wire SPI Disable
+    """
+    bme280_i2c.set_default_i2c_address(i2c_address)
+    bme280_i2c.set_default_bus(bus_number)
+    setup(oversample_t,oversample_p,oversample_h,filter,mode,t_sb,spi3w_en)
+                   
 
 def main():
     parser = argparse.ArgumentParser()
